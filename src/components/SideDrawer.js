@@ -33,7 +33,7 @@ export default function SideDrawer() {
     const [searchResult, setSearchResult] = useState([])
     const [loading, setLoading] = useState(false)
     const [loadingChat, setLoadingChat] = useState(false)
-    const { user, setSelectedChat, chats, setChats } = ChatState();
+    const { user,setUser, setSelectedChat, chats, setChats } = ChatState();
     const history = useHistory();
     const toast = useToast();
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -110,6 +110,7 @@ export default function SideDrawer() {
             duration: 3000,
             isClosable: true,
         });
+        setUser(null)
         history.push("/");
     };
 

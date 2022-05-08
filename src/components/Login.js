@@ -46,7 +46,7 @@ export default function Login() {
             toast({
                 title: "Login Successful",
                 status: "success",
-                duration: 5000,
+                duration: 3000,
                 isClosable: true,
                 position: "bottom",
             });

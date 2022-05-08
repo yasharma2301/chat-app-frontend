@@ -4,6 +4,8 @@
   "private": true,
   "proxy": "http://localhost:5000/",
   "dependencies": {
+    "@chakra-ui/icons": "^1.1.7",
+    "@chakra-ui/modal": "^1.11.1",
     "@chakra-ui/react": "^1.8.8",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.1.1",

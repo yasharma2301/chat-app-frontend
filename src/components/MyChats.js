@@ -9,7 +9,7 @@ import { ChatState } from "../Context/ChatProvider";
 import GroupChatModal from './GroupChatModal'
 import { getSender } from "../config/ChatLogic";
 
-export default function MyChats() {
+export default function MyChats({ fetchAgain }) {
     const [loggedUser, setLoggedUser] = useState();
     const { selectedChat, setSelectedChat, user, chats, setChats } = ChatState();
     const toast = useToast();
@@ -39,7 +39,7 @@ export default function MyChats() {
     useEffect(() => {
         setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
         fetchChats();
-    }, []);
+    }, [fetchAgain]);
 
     return (
         <Box

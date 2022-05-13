@@ -11,18 +11,47 @@ import UpdateGroupChatModal from './UpdateGroupChatModal'
 import axios from "axios";
 import './styles.css'
 import ScrollableChat from './ScrollableChat';
+import io from 'socket.io-client'
+
+const ENDPOINT = 'http://localhost:5000'
+var socket, selectedChatCompare;
 
 export default function SingleChat({ fetchAgain, setFetchAgain }) {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [newMessage, setNewMessage] = useState("");
-  const { user, selectedChat, setSelectedChat } = ChatState();
+  const [socketConnected, setSocketConnected] = useState(false);
+  const [typing, setTyping] = useState(false);
+  const [istyping, setIsTyping] = useState(false);
+  const { user, selectedChat, setSelectedChat, notifications, setNotification } = ChatState();
   const toast = useToast();
 
   useEffect(() => {
+    socket = io(ENDPOINT);
+    socket.emit('setup', user);
+
+    socket.on('connected', () => { setSocketConnected(true) })
+    socket.on('typing', () => setIsTyping(true));
+    socket.on('stop_typing', () => setIsTyping(false));
+  }, [])
+
+  useEffect(() => {
     fetchMessages();
+    selectedChatCompare = selectedChat;
   }, [selectedChat]);
 
+  useEffect(() => {
+    socket.on('message_received', (newMessageReceived) => {
+      if (!selectedChatCompare || selectedChatCompare._id !== newMessageReceived.chat._id) {
+        if(!notifications.includes(newMessageReceived)){
+          setNotification([newMessageReceived, ...notifications]);
+          setFetchAgain(!fetchAgain);
+        }
+      } else {
+        setMessages([...messages, newMessageReceived]);
+      }
+    })
+  })
 
   const fetchMessages = async () => {
     if (!selectedChat) return;
@@ -42,7 +71,7 @@ export default function SingleChat({ fetchAgain, setFetchAgain }) {
       );
       setMessages(data);
       setLoading(false);
-
+      socket.emit('join_chat', selectedChat._id)
     } catch (error) {
       toast({
         title: "Error Occured!",
@@ -57,6 +86,7 @@ export default function SingleChat({ fetchAgain, setFetchAgain }) {
 
   const sendMessage = async (e) => {
     if (e.key === "Enter" && newMessage) {
+      socket.emit('stop_typing', selectedChat._id);
       try {
         const config = {
           headers: {
@@ -73,6 +103,7 @@ export default function SingleChat({ fetchAgain, setFetchAgain }) {
           },
           config
         );
+        socket.emit('new_message', data);
         setMessages([...messages, data]);
       } catch (error) {
         toast({
@@ -86,8 +117,42 @@ export default function SingleChat({ fetchAgain, setFetchAgain }) {
       }
     }
   }
+
+  useEffect(() => {
+    if (!socketConnected) return;
+
+    if (newMessage === '') {
+      setTyping(false);
+      socket.emit('stop_typing', selectedChat._id);
+    }
+  }, [newMessage])
+
   const typingHandler = (e) => {
-    setNewMessage(e.target.value)
+    setNewMessage(e.target.value);
+
+    if (!socketConnected) return;
+
+    // if(e.target.value === ''){
+    //   setTyping(false);
+    //   socket.emit('stop_typing', selectedChat._id);
+    // }
+
+    if (!typing) {
+      setTyping(true);
+      socket.emit('typing', selectedChat._id);
+    }
+
+    let lastTypingTime = new Date().getTime();
+    let timerLength = 3000;
+    setTimeout(() => {
+      let timeNow = new Date().getTime();
+      let timeDifference = timeNow - lastTypingTime;
+
+      if (timeDifference >= timerLength && typing) {
+        socket.emit('stop_typing', selectedChat._id);
+        setTyping(false);
+      }
+    }, timerLength);
   }
 
   return (
@@ -157,6 +222,9 @@ export default function SingleChat({ fetchAgain, setFetchAgain }) {
               isRequired
               mt={3}
             >
+              {
+                istyping ? <div>User is typing...</div> : <></>
+              }
               <Input
                 variant="filled"
                 bg="#D4D4D4"

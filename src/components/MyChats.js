@@ -10,7 +10,7 @@ import GroupChatModal from './GroupChatModal'
 import { getSender } from "../config/ChatLogic";
 
 export default function MyChats({ fetchAgain }) {
-    const [loggedUser, setLoggedUser] = useState();
+    const [loggedUser, setLoggedUser] = useState(JSON.parse(localStorage.getItem("userInfo")));
     const { selectedChat, setSelectedChat, user, chats, setChats } = ChatState();
     const toast = useToast();
 

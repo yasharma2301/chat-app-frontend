@@ -44,7 +44,9 @@ export default function Login() {
                 { email, password },
                 config
             );
-
+            localStorage.setItem("userInfo", JSON.stringify(data));
+            setUser(data)
+            
             toast({
                 title: "Login Successful",
                 status: "success",
@@ -52,8 +54,7 @@ export default function Login() {
                 isClosable: true,
                 position: "bottom",
             });
-            localStorage.setItem("userInfo", JSON.stringify(data));
-            setUser(data)
+            
             setLoading(false);
             history.push("/chats");
         } catch (error) {

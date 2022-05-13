@@ -27,13 +27,14 @@ import { Input } from "@chakra-ui/input";
 import axios from "axios";
 import ChatLoading from './ChatLoading';
 import UserListItem from './UserListItem'
+import { getSender } from '../config/ChatLogic';
 
 export default function SideDrawer() {
     const [search, setSearch] = useState('')
     const [searchResult, setSearchResult] = useState([])
     const [loading, setLoading] = useState(false)
     const [loadingChat, setLoadingChat] = useState(false)
-    const { user, setUser, setSelectedChat, chats, setChats } = ChatState();
+    const { user, setUser, setSelectedChat, chats, setChats, notifications, setNotification } = ChatState();
     const history = useHistory();
     const toast = useToast();
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -135,15 +136,33 @@ export default function SideDrawer() {
                     </Button>
 
                 </Tooltip>
-                <Text fontSize="2xl" fontFamily="Work sans">
+                <Text fontSize="2xl" fontFamily="Work sans" fontWeight="bold">
                     Let's Chat
                 </Text>
                 <div>
                     <Menu>
                         <MenuButton p={1}>
-                            <BellIcon fontSize="2xl" m={1} />
+                            <div className='notication-button'>
+                                <div className={`${notifications.length === 0 ? 'notifcation-none' : ''} notification`}>{notifications.length}</div>
+                                <BellIcon fontSize="3xl" m={1} />
+                            </div>
                         </MenuButton>
-                        {/* <MenuList> </MenuList> */}
+                        <MenuList p={2}>
+                            {
+                                !notifications.length && "No new Messages"
+                            }
+                            {
+                                notifications.map(notif => (
+                                    <MenuItem key={notif._id} onClick={() => {
+                                        console.log(notif)
+                                        setSelectedChat(notif.chat)
+                                        setNotification(notifications.filter((n) => n !== notif))
+                                    }}>
+                                        {notif.chat.isGroupChat ? `New message in ${notif.chat.chatName}` : `New message from ${getSender(user, notif.chat.users)}`}
+                                    </MenuItem>
+                                ))
+                            }
+                        </MenuList>
                     </Menu>
                     <Menu>
                         <MenuButton as={Button} bg="white" rightIcon={<ChevronDownIcon />}>

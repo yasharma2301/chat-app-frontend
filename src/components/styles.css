@@ -3,4 +3,27 @@
     flex-direction: column;
     overflow-y: scroll;
     scrollbar-width: none;
-  }
+}
+
+.notification {
+  background-color: red;
+  height: 1.3rem;
+  width: 1.3rem;
+  border-radius: 50%;
+  padding: 0.6rem;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+}
+
+.notication-button{
+  position: relative;
+}
+
+.notifcation-none {
+  display: none;
+}

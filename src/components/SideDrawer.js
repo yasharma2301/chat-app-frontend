@@ -33,7 +33,7 @@ export default function SideDrawer() {
     const [searchResult, setSearchResult] = useState([])
     const [loading, setLoading] = useState(false)
     const [loadingChat, setLoadingChat] = useState(false)
-    const { user,setUser, setSelectedChat, chats, setChats } = ChatState();
+    const { user, setUser, setSelectedChat, chats, setChats } = ChatState();
     const history = useHistory();
     const toast = useToast();
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -87,6 +87,7 @@ export default function SideDrawer() {
             const { data } = await axios.post(`/api/chat`, { userId }, config);
 
             if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
+
             setSelectedChat(data);
             setLoadingChat(false);
             onClose();
@@ -139,7 +140,9 @@ export default function SideDrawer() {
                 </Text>
                 <div>
                     <Menu>
-
+                        <MenuButton p={1}>
+                            <BellIcon fontSize="2xl" m={1} />
+                        </MenuButton>
                         {/* <MenuList> </MenuList> */}
                     </Menu>
                     <Menu>
@@ -178,13 +181,15 @@ export default function SideDrawer() {
                         {loading ? (
                             <ChatLoading />
                         ) : (
-                            searchResult?.map((user) => (
-                                <UserListItem
-                                    key={user._id}
-                                    user={user}
-                                    handleFunction={() => accessChat(user._id)}
-                                />
-                            ))
+                            searchResult?.map((user) => {
+                                return (
+                                    <UserListItem
+                                        key={user._id}
+                                        user={user}
+                                        handleFunction={() => accessChat(user._id)}
+                                    />
+                                )
+                            })
                         )}
                         {loadingChat && <Spinner ml="auto" d="flex" />}
                     </DrawerBody>

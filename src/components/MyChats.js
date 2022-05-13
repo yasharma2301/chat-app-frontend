@@ -8,6 +8,7 @@ import { Button } from "@chakra-ui/react";
 import { ChatState } from "../Context/ChatProvider";
 import GroupChatModal from './GroupChatModal'
 import { getSender } from "../config/ChatLogic";
+import { BASE_URL } from "../Constants";
 
 export default function MyChats({ fetchAgain }) {
     const [loggedUser, setLoggedUser] = useState(JSON.parse(localStorage.getItem("userInfo")));
@@ -22,7 +23,7 @@ export default function MyChats({ fetchAgain }) {
                 },
             };
 
-            const { data } = await axios.get("/api/chat", config);
+            const { data } = await axios.get(`${BASE_URL}/api/chat`, config);
             setChats(data);
         } catch (error) {
             toast({
@@ -94,7 +95,7 @@ export default function MyChats({ fetchAgain }) {
                                 px={3}
                                 py={2}
                                 borderRadius="lg"
-                                key={chat._id}
+                                key={`${chat._id}-chat`}
                             >
                                 <Text>
                                     {!chat.isGroupChat

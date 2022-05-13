@@ -28,6 +28,7 @@ import axios from "axios";
 import ChatLoading from './ChatLoading';
 import UserListItem from './UserListItem'
 import { getSender } from '../config/ChatLogic';
+import { BASE_URL } from '../Constants';
 
 export default function SideDrawer() {
     const [search, setSearch] = useState('')
@@ -59,7 +60,7 @@ export default function SideDrawer() {
                 },
             };
 
-            const { data } = await axios.get(`/api/user?search=${search}`, config);
+            const { data } = await axios.get(`${BASE_URL}/api/user?search=${search}`, config);
 
             setLoading(false);
             setSearchResult(data);
@@ -85,7 +86,7 @@ export default function SideDrawer() {
                     Authorization: `Bearer ${user.token}`,
                 },
             };
-            const { data } = await axios.post(`/api/chat`, { userId }, config);
+            const { data } = await axios.post(`${BASE_URL}/api/chat`, { userId }, config);
 
             if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
 
@@ -153,8 +154,7 @@ export default function SideDrawer() {
                             }
                             {
                                 notifications.map(notif => (
-                                    <MenuItem key={notif._id} onClick={() => {
-                                        console.log(notif)
+                                    <MenuItem key={`${notif._id}-notification`} onClick={() => {
                                         setSelectedChat(notif.chat)
                                         setNotification(notifications.filter((n) => n !== notif))
                                     }}>
@@ -203,7 +203,7 @@ export default function SideDrawer() {
                             searchResult?.map((user) => {
                                 return (
                                     <UserListItem
-                                        key={user._id}
+                                        key={`${user._id}-search`}
                                         user={user}
                                         handleFunction={() => accessChat(user._id)}
                                     />

@@ -6,13 +6,15 @@ import { useToast } from "@chakra-ui/toast";
 import { useState } from "react";
 import { useHistory } from "react-router";
 import axios from 'axios'
+import { BASE_URL } from "../Constants";
+import { ChatState } from "../Context/ChatProvider";
 
 const Signup = () => {
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
   const toast = useToast();
   const history = useHistory();
-
+  const {setUser} = ChatState();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [confirmpassword, setConfirmpassword] = useState('');
@@ -51,14 +53,17 @@ const Signup = () => {
       }
 
       const postData = pic === undefined ? { name, email, password } : { name, email, password, pic };
-      const { data } = await axios.post('/api/user', postData, config);
+      const { data } = await axios.post(`${BASE_URL}/api/user`, postData, config);
+      localStorage.setItem('userInfo', JSON.stringify(data));
+      setUser(data)
+      
       toast({
         title: "Registration Success!",
         status: 'success',
         duration: 5000,
         isClosable: true,
       });
-      localStorage.setItem('userInfo', JSON.stringify(data));
+
       setLoading(false);
       history.push('/chats');
     } catch (err) {

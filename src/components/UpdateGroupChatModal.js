@@ -21,6 +21,7 @@ import { useState } from "react";
 import { ChatState } from "../Context/ChatProvider";
 import UserBadgeItem from "./UserBadgeItem";
 import UserListItem from "./UserListItem";
+import { BASE_URL } from "../Constants";
 
 export default function UpdateGroupChatModal({ fetchMessages, fetchAgain, setFetchAgain }) {
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -49,7 +50,7 @@ export default function UpdateGroupChatModal({ fetchMessages, fetchAgain, setFet
                 },
             };
             const { data } = await axios.put(
-                `/api/chat/rename`,
+                `${BASE_URL}/api/chat/rename`,
                 {
                     chatId: selectedChat._id,
                     chatName: groupChatName,
@@ -86,8 +87,7 @@ export default function UpdateGroupChatModal({ fetchMessages, fetchAgain, setFet
                     Authorization: `Bearer ${user.token}`,
                 },
             };
-            const { data } = await axios.get(`/api/user?search=${search}`, config);
-            console.log(data);
+            const { data } = await axios.get(`${BASE_URL}/api/user?search=${search}`, config);
             setLoading(false);
             setSearchResult(data);
         } catch (error) {
@@ -123,7 +123,7 @@ export default function UpdateGroupChatModal({ fetchMessages, fetchAgain, setFet
                 },
             };
             const { data } = await axios.put(
-                `/api/chat/groupremove`,
+                `${BASE_URL}/api/chat/groupremove`,
                 {
                     chatId: selectedChat._id,
                     userId: user1._id,
@@ -180,7 +180,7 @@ export default function UpdateGroupChatModal({ fetchMessages, fetchAgain, setFet
                 },
             };
             const { data } = await axios.put(
-                `/api/chat/groupadd`,
+                `${BASE_URL}/api/chat/groupadd`,
                 {
                     chatId: selectedChat._id,
                     userId: user1._id,
@@ -192,8 +192,8 @@ export default function UpdateGroupChatModal({ fetchMessages, fetchAgain, setFet
             setFetchAgain(!fetchAgain);
             setLoading(false);
             toast({
-                title: `User ${user1} added successfully`,
-                status: "error",
+                title: `User added successfully`,
+                status: "success",
                 duration: 3000,
                 isClosable: true,
                 position: "bottom",
@@ -233,7 +233,7 @@ export default function UpdateGroupChatModal({ fetchMessages, fetchAgain, setFet
                         <Box w="100%" d="flex" flexWrap="wrap" pb={3}>
                             {selectedChat.users.map((u) => (
                                 <UserBadgeItem
-                                    key={u._id}
+                                    key={`${u._id}-badge`}
                                     user={u}
                                     admin={selectedChat.groupAdmin}
                                     handleFunction={() => handleRemove(u)}
@@ -270,7 +270,7 @@ export default function UpdateGroupChatModal({ fetchMessages, fetchAgain, setFet
                         ) : (
                             searchResult?.map((user) => (
                                 <UserListItem
-                                    key={user._id}
+                                    key={`${user._id}-res`}
                                     user={user}
                                     handleFunction={() => handleAddUser(user)}
                                 />

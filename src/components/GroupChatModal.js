@@ -18,6 +18,7 @@ import {
   import { ChatState } from "../Context/ChatProvider";
   import UserBadgeItem from "./UserBadgeItem";
   import UserListItem from "./UserListItem";
+  import { BASE_URL } from "../Constants";
   
   const GroupChatModal = ({ children }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -58,8 +59,7 @@ import {
             Authorization: `Bearer ${user.token}`,
           },
         };
-        const { data } = await axios.get(`/api/user?search=${search}`, config);
-        console.log(data);
+        const { data } = await axios.get(`${BASE_URL}/api/user?search=${search}`, config);
         setLoading(false);
         setSearchResult(data);
       } catch (error) {
@@ -97,7 +97,7 @@ import {
           },
         };
         const { data } = await axios.post(
-          `/api/chat/group`,
+          `${BASE_URL}/api/chat/group`,
           {
             name: groupChatName,
             users: JSON.stringify(selectedUsers.map((u) => u._id)),
@@ -158,7 +158,7 @@ import {
               <Box w="100%" d="flex" flexWrap="wrap">
                 {selectedUsers.map((u) => (
                   <UserBadgeItem
-                    key={u._id}
+                    key={`${u._id}-user-badge`}
                     user={u}
                     handleFunction={() => handleDelete(u)}
                   />
@@ -171,7 +171,7 @@ import {
                   ?.slice(0, 4)
                   .map((user) => (
                     <UserListItem
-                      key={user._id}
+                      key={`${user._id}-user-list-item`}
                       user={user}
                       handleFunction={() => handleGroup(user)}
                     />

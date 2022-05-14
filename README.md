@@ -17,13 +17,15 @@
 Chatpage:
 ![chatpage-lets-chat](https://user-images.githubusercontent.com/58696571/168414737-57c91dbf-d281-4955-bcea-34c646abc97f.png)
 
-User Auth:
+User Auth:\
 ![signup-lets-chat](https://user-images.githubusercontent.com/58696571/168414744-01d5a4e3-40b9-493b-8f0c-4df70ed72a01.png)
 
-Group Modal:
+
+Group Modal:\
 ![update-group-lets-chat](https://user-images.githubusercontent.com/58696571/168414747-a4a1444d-d403-41ea-929d-17d62a5f084b.png)
 
-Search Users:
+
+Search Users:\
 ![search-users-lets-chat](https://user-images.githubusercontent.com/58696571/168414750-4bdd91e2-13ed-4d3d-9204-54e394f57e27.png)
 
 ### Further Improvements:

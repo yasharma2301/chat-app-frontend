@@ -1,70 +1,44 @@
-# Getting Started with Create React App
+# Let's Chat
+### - Realtime chat application built with MERN stack and Socket.io
+[![forthebadge](https://forthebadge.com/images/badges/made-with-javascript.svg)](https://forthebadge.com)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+##### Deployed at: https://letss-chatt.netlify.app/
+##### Backend Repository: https://github.com/yasharma2301/chat-app-backend
 
-## Available Scripts
+### Application Supports:
+1. User Auth
+2. Send 1 to 1 chats
+3. Create group chats
+4. Add/remove users from group, rename groups
+5. Search for users to start chat with
+6. Realtime notifications
 
-In the project directory, you can run:
+## Screenshots
+Chatpage:
+![chatpage-lets-chat](https://user-images.githubusercontent.com/58696571/168414737-57c91dbf-d281-4955-bcea-34c646abc97f.png)
 
-### `npm start`
+User Auth:
+![signup-lets-chat](https://user-images.githubusercontent.com/58696571/168414744-01d5a4e3-40b9-493b-8f0c-4df70ed72a01.png)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Group Modal:
+![update-group-lets-chat](https://user-images.githubusercontent.com/58696571/168414747-a4a1444d-d403-41ea-929d-17d62a5f084b.png)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Search Users:
+![search-users-lets-chat](https://user-images.githubusercontent.com/58696571/168414750-4bdd91e2-13ed-4d3d-9204-54e394f57e27.png)
 
-### `npm test`
+### Further Improvements:
+1. Persist notifcation in database, current version implemented using socket.io
+2. Delete chat deatils after a particular amount of time if all users have left the group
+3. Change group admin functionality
+4. Send media messages
+5. Host images using [multer](https://www.npmjs.com/package/multer), currently using (cloudinary) a 3rd party cloud service
+6. Voice calls
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Installation
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```sh
+https://github.com/yasharma2301/chat-app-frontend.git
+npm install
+npm start
+```
+Open http://localhost:3000 to view it in the browser.

@@ -1,1 +1,1 @@
-export const BASE_URL = 'https://letss-chatt.herokuapp.com'
+export const BASE_URL = 'https://lets-chat-backend-5493.onrender.com'
